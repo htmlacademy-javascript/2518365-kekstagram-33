@@ -46,3 +46,13 @@ extractNumber('а я томат'); // NaN
 extractNumber(2023); // 2023
 extractNumber(-1); // 1
 extractNumber(1.5); // 15
+
+const isTimeInNumber = (string = '') => (parseInt(string.split(':')[0], 10) * 60) + parseInt(string.split(':')[1], 10);
+
+const isValidTimeMetting = (startWorkTime, endWorkTime, startMeetingTime, meetingValues) => (isTimeInNumber(endWorkTime) - isTimeInNumber(startMeetingTime)) >= meetingValues && isTimeInNumber(startWorkTime) <= isTimeInNumber(startMeetingTime);
+
+isValidTimeMetting('08:00', '17:30', '14:00', 90); // true
+isValidTimeMetting('8:0', '10:0', '8:0', 120); // true
+isValidTimeMetting('08:00', '14:30', '14:00', 90); // false
+isValidTimeMetting('14:00', '17:30', '08:0', 90); // false
+isValidTimeMetting('8:00', '17:30', '08:00', 900); // false
