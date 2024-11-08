@@ -82,5 +82,5 @@ const addPhoto = (index) => ({
 });
 
 const addPhotos = () => Array.from({length: PHOTO_COUNT}, (_,index) => addPhoto(index));
-
-export {addPhotos};
+const photos = addPhotos();
+export {photos};
