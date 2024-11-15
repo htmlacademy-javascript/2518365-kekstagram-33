@@ -1,3 +1,5 @@
+import { openFullPhoto } from './full-pictures.js';
+
 const containerElement = document.querySelector('.pictures');
 const pictureTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
 const fragment = document.createDocumentFragment();
@@ -11,6 +13,10 @@ const renderPhoto = (picture) => {
   pictureElement.querySelector('.picture__likes').textContent = likes;
   pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
+  pictureElement.addEventListener('click', () => {
+    openFullPhoto(picture);
+  });
+
   return pictureElement;
 };
 
@@ -22,5 +28,5 @@ const renderPhotos = (photos) => {
   containerElement.appendChild(fragment);
 };
 
-export {renderPhotos};
+export { renderPhotos };
 
