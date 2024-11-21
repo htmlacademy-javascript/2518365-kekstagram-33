@@ -13,7 +13,8 @@ const renderPhoto = (picture) => {
   pictureElement.querySelector('.picture__likes').textContent = likes;
   pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
-  pictureElement.addEventListener('click', () => {
+  pictureElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
     openFullPhoto(picture);
   });
 
