@@ -1,5 +1,7 @@
 import { isEscapeKey } from './util.js';
 import { onEffectsListClick } from './slider.js';
+import { sendData } from './server.js';
+import { showErrorMessage, showSuccessMessage } from './messages.js';
 
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAGS = 5;
@@ -57,13 +59,7 @@ const pristine = new Pristine(formContainerElement, {
 const closeForm = () => {
   formElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
-
-  closeFormBtnElement.removeEventListener('click', closeForm);
   document.removeEventListener('keydown', closeFormByEscape);
-  hashtagInputElement.removeEventListener('input', resetCloseByEscape);
-  commentInputElement.removeEventListener('input', resetCloseByEscape);
-  effectsListElement.removeEventListener('click', onEffectsListClick);
-  formContainerElement.querySelector('.img-upload__scale').removeEventListener('click', onScaleBtnClick);
 
   imageElement.style.removeProperty('transform');
   imageElement.style.removeProperty('filter');
@@ -72,8 +68,10 @@ const closeForm = () => {
   pristine.reset();
 };
 
+const isErrorMessageShow = () => Boolean(document.body.querySelector('.error'));
+
 function closeFormByEscape (evt) {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && !isErrorMessageShow()) {
     closeForm();
   }
 }
@@ -82,15 +80,14 @@ const openForm = () => {
   formElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.querySelector('.img-upload__effect-level').classList.add('hidden');
-
-  closeFormBtnElement.addEventListener('click', closeForm);
   document.addEventListener('keydown', closeFormByEscape);
-  hashtagInputElement.addEventListener('input', resetCloseByEscape);
-  commentInputElement.addEventListener('input', resetCloseByEscape);
-  effectsListElement.addEventListener('click', onEffectsListClick);
-  formContainerElement.querySelector('.img-upload__scale').addEventListener('click', onScaleBtnClick);
 };
 
+closeFormBtnElement.addEventListener('click', closeForm);
+hashtagInputElement.addEventListener('input', resetCloseByEscape);
+commentInputElement.addEventListener('input', resetCloseByEscape);
+effectsListElement.addEventListener('click', onEffectsListClick);
+formContainerElement.querySelector('.img-upload__scale').addEventListener('click', onScaleBtnClick);
 inputPhotoElement.addEventListener('change', openForm);
 
 const validateHashtag = (value) => {
@@ -121,8 +118,17 @@ const validateComment = (value) => value.length < MAX_COMMENT_LENGTH;
 
 pristine.addValidator(commentInputElement, validateComment, `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`);
 
+const sendForm = () => {
+  showSuccessMessage();
+  closeForm();
+  formElement.querySelector('.img-upload__submit').disabled = false;
+};
+
 formContainerElement.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
+  evt.preventDefault();
+  if (pristine.validate()) {
+    const data = new FormData(formElement);
+    formElement.querySelector('.img-upload__submit').disabled = true;
+    sendData(sendForm, showErrorMessage, 'POST', data);
   }
 });
