@@ -1,5 +1,5 @@
 const Urls = {
-  GET: 'https://32.javascript.htmlacademy.pro/kekstagram/data',
+  GET: 'https://32.javascript.htmlacademy.pro/kekstagram/data/',
   POST: 'https://32.javascript.htmlacademy.pro/kekstagram/',
 };
 

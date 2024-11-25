@@ -127,7 +127,7 @@ const sendForm = () => {
 formContainerElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
-    const data = new FormData(formElement);
+    const data = new FormData(formContainerElement);
     formElement.querySelector('.img-upload__submit').disabled = true;
     sendData(sendForm, showErrorMessage, 'POST', data);
   }
