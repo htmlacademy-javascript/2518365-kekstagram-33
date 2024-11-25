@@ -1,4 +1,4 @@
-import { isEscapeKey } from './util';
+import { isEscapeKey } from './util.js';
 
 const successMessageElement = document.querySelector('#success').content.querySelector('.success');
 const errorMessageElement = document.querySelector('#error').content.querySelector('.error');
