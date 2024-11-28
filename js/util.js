@@ -1,3 +1,4 @@
+const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const ALERT_SHOW_TIME = 5000;
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
@@ -9,4 +10,12 @@ const showDataErrorMessage = () => {
   }, ALERT_SHOW_TIME);
 };
 
-export { isEscapeKey, showDataErrorMessage };
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { isEscapeKey, showDataErrorMessage, getRandomInteger, debounce };

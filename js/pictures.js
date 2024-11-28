@@ -2,7 +2,6 @@ import { openFullPhoto } from './full-pictures.js';
 
 const containerElement = document.querySelector('.pictures');
 const pictureTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
-const fragment = document.createDocumentFragment();
 
 const renderPhoto = (picture) => {
   const {url, description, likes, comments} = picture;
@@ -21,7 +20,15 @@ const renderPhoto = (picture) => {
   return pictureElement;
 };
 
+const clearPicturesContainer = () => {
+  if (containerElement.querySelectorAll('a.picture')) {
+    containerElement.querySelectorAll('a.picture').forEach((item) => item.remove());
+  }
+};
+
 const renderPhotos = (photos) => {
+  clearPicturesContainer();
+  const fragment = document.createDocumentFragment();
   photos.forEach((photo) => {
     fragment.appendChild(renderPhoto(photo));
   });
