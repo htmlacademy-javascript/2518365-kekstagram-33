@@ -6,6 +6,7 @@ import { showErrorMessage, showSuccessMessage } from './messages.js';
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAGS = 5;
 const REGEXP_FOR_HASHTAGS = /^#[\wа-яё]{1,19}$/i;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const Zoom = {
   MIN: 25,
@@ -83,12 +84,25 @@ const openForm = () => {
   document.addEventListener('keydown', closeFormByEscape);
 };
 
+const onChooseFileBtnClick = () => {
+  openForm();
+
+  const file = inputPhotoElement.files[0];
+  const isCorrectFileType = FILE_TYPES.some((item) => file.name.toLowerCase().endsWith(item));
+  if (isCorrectFileType) {
+    imageElement.src = URL.createObjectURL(file);
+  }
+  formContainerElement.querySelectorAll('.effects__preview').forEach((item) => {
+    item.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+  });
+};
+
 closeFormBtnElement.addEventListener('click', closeForm);
 hashtagInputElement.addEventListener('input', resetCloseByEscape);
 commentInputElement.addEventListener('input', resetCloseByEscape);
 effectsListElement.addEventListener('click', onEffectsListClick);
 formContainerElement.querySelector('.img-upload__scale').addEventListener('click', onScaleBtnClick);
-inputPhotoElement.addEventListener('change', openForm);
+inputPhotoElement.addEventListener('change', onChooseFileBtnClick);
 
 const validateHashtag = (value) => {
   const hashtagArray = value.toLowerCase().trim().split(/\s+/);
