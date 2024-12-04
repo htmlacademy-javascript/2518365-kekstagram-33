@@ -1,5 +1,6 @@
-const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const ALERT_SHOW_TIME = 5000;
+
+const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showDataErrorMessage = () => {

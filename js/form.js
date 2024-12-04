@@ -14,6 +14,12 @@ const Zoom = {
   STEP: 25
 };
 
+const Hashtags = {
+  VALIDITY: 'Введён невалидный хэш-тег',
+  QUANTITY: 'Превышено количество хэш-тегов',
+  REPEAT: 'Хэш-теги не должны повторяться'
+};
+
 const formContainerElement = document.querySelector('.img-upload__form');
 const inputPhotoElement = formContainerElement.querySelector('.img-upload__input');
 const formElement = formContainerElement.querySelector('.img-upload__overlay');
@@ -116,13 +122,13 @@ const getHashtagErrorMessage = () => {
   const hashtagArray = hashtagInputElement.value.toLowerCase().trim().split(/\s+/);
 
   if (hashtagArray.find((item) => !REGEXP_FOR_HASHTAGS.test(item))) {
-    return 'Введён невалидный хэш-тег';
+    return Hashtags.VALIDITY;
   }
   if (hashtagArray.length > MAX_HASHTAGS) {
-    return 'Превышено количество хэш-тегов';
+    return Hashtags.QUANTITY;
   }
   if (new Set(hashtagArray).size !== hashtagArray.length) {
-    return 'Хэш-теги не должны повторяться';
+    return Hashtags.REPEAT;
   }
 };
 
